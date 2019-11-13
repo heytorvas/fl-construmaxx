@@ -5,7 +5,7 @@ import javax.faces.context.FacesContext;
 
 public class Session {
 	
-	private static Session session;
+private static Session session;
 	
 	private Session() {	}
 	

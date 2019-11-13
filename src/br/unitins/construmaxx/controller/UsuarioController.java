@@ -11,13 +11,13 @@ import javax.inject.Named;
 import br.unitins.construmaxx.application.Util;
 import br.unitins.construmaxx.dao.DAO;
 import br.unitins.construmaxx.dao.UsuarioDAO;
+import br.unitins.construmaxx.model.Endereco;
 import br.unitins.construmaxx.model.Perfil;
 import br.unitins.construmaxx.model.Telefone;
 import br.unitins.construmaxx.model.Usuario;
 
 @Named
 @ViewScoped
-//dontpad.com/sisunitins_topicos1_20192
 public class UsuarioController implements Serializable {
 
 	private static final long serialVersionUID = -6998638931332554108L;
@@ -25,11 +25,23 @@ public class UsuarioController implements Serializable {
 	private Usuario usuario;
 
 	private List<Usuario> listaUsuario;
+	
+	private String nome;
 
 	public List<Usuario> getListaUsuario() {
 		if (listaUsuario == null) {
 			DAO<Usuario> dao = new UsuarioDAO();
 			listaUsuario = dao.findAll();
+			if (listaUsuario == null)
+				listaUsuario = new ArrayList<Usuario>();
+		}
+		return listaUsuario;
+	}
+	
+	public List<Usuario> usuarioPesquisa() {
+		if (listaUsuario == null) {
+			DAO<Usuario> dao = new UsuarioDAO();
+			//listaUsuario = dao.findAll();
 			if (listaUsuario == null)
 				listaUsuario = new ArrayList<Usuario>();
 		}
@@ -48,13 +60,13 @@ public class UsuarioController implements Serializable {
 
 				dao.create(getUsuario());
 				dao.getConnection().commit();
-				Util.addMessageInfo("Inclusão realizada com sucesso.");
+				Util.addMessageInfo("Inclusao realizada com sucesso.");
 				limpar();
 				listaUsuario = null;
 			} catch (SQLException e) {
 				dao.rollbackConnection();
 				dao.closeConnection();
-				Util.addMessageInfo("Erro ao incluir o Usuário no Banco de Dados.");
+				Util.addMessageInfo("Erro ao incluir o Usuario no Banco de Dados.");
 				e.printStackTrace();
 			}
 		}
@@ -64,9 +76,10 @@ public class UsuarioController implements Serializable {
 		if (validarDados()) {
 			DAO<Usuario> dao = new UsuarioDAO();
 			try {
+				getUsuario().setSenha(Util.hashSHA256(getUsuario().getSenha()));
 				dao.update(getUsuario());
 				dao.getConnection().commit();
-				Util.addMessageInfo("Altera��o realizada com sucesso.");
+				Util.addMessageInfo("Alteracao realizada com sucesso.");
 				limpar();
 				listaUsuario = null;
 			} catch (SQLException e) {
@@ -89,11 +102,11 @@ public class UsuarioController implements Serializable {
 		try {
 			dao.delete(getUsuario().getId());
 			dao.getConnection().commit();
-			Util.addMessageInfo("Exclusão realizada com sucesso.");
+			Util.addMessageInfo("Exclusao realizada com sucesso.");
 			return true;
 		} catch (SQLException e) {
 			dao.rollbackConnection();
-			Util.addMessageInfo("Erro ao excluir o Produto no Banco de Dados.");
+			Util.addMessageInfo("Erro ao excluir o usuario no Banco de Dados.");
 			e.printStackTrace();
 			return false;
 		} finally {
@@ -119,6 +132,7 @@ public class UsuarioController implements Serializable {
 		if (usuario == null) {
 			usuario = new Usuario();
 			usuario.setTelefone(new Telefone());
+			usuario.setEndereco(new Endereco());
 		}
 		return usuario;
 	}
@@ -133,5 +147,13 @@ public class UsuarioController implements Serializable {
 
 	public Perfil[] getListaPerfil() {
 		return Perfil.values();
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 }

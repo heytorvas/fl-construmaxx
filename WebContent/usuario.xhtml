@@ -44,11 +44,13 @@
 						<h:selectBooleanCheckbox id="checkAtivo"
 							value="#{usuarioController.usuario.ativo}" />
 
+
 						<h:outputLabel value="DDD: " />
 						<h:inputText
 							value="#{usuarioController.usuario.telefone.codigoArea}" />
 						<h:outputLabel value="Telefone: " />
 						<h:inputText value="#{usuarioController.usuario.telefone.numero}" />
+
 
 						<h:outputLabel value="Perfil: " />
 						<h:selectOneMenu value="#{usuarioController.usuario.perfil}">
@@ -56,6 +58,35 @@
 							<f:selectItems value="#{usuarioController.listaPerfil}"
 								var="perfil" itemLabel="#{perfil.label}" itemValue="#{perfil}" />
 						</h:selectOneMenu>
+
+
+						<h:panelGrid columns="1" class="mr-2 ">
+							<h:outputLabel value="Logradouro: " />
+							<h:inputText id="inputLogradouro"
+								value="#{usuarioController.usuario.endereco.logradouro}" />
+						</h:panelGrid>
+						<h:panelGrid columns="1" class="mr-2 ">
+							<h:outputLabel value="Número: " />
+							<h:inputText id="inputNumero"
+								value="#{usuarioController.usuario.endereco.numero}" />
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1" class="mr-2 ">
+								<h:outputLabel value="Cidade: " />
+								<h:inputText id="inputCidade"
+									value="#{usuarioController.usuario.endereco.cidade}" />
+							</h:panelGrid>
+							<h:panelGrid columns="1" class="mr-2 ">
+								<h:outputLabel value="Estado: " />
+								<h:inputText id="inputEstado"
+									value="#{usuarioController.usuario.endereco.estado}" />
+							</h:panelGrid>
+						</h:panelGrid>
+						<h:panelGrid columns="1" class="mr-2 ">
+							<h:outputLabel value="Cep: " />
+							<h:inputText id="inputCep"
+								value="#{usuarioController.usuario.endereco.cep}" />
+						</h:panelGrid>
 
 					</h:panelGrid>
 
@@ -127,16 +158,18 @@
 								<f:facet name="header">Ativo</f:facet>
 								<h:outputLabel value="#{obj.ativo == true ? 'Sim' : 'Não' }" />
 							</h:column>
+
+							<h:column>
+								<f:facet name="header">Perfil</f:facet>
+								<h:outputLabel value="#{obj.perfil.label}" />
+							</h:column>
+
 							<h:column>
 								<h:commandLink value="Apagar"
 									actionListener="#{usuarioController.excluir(obj)}">
 									<f:ajax render="formPrincipal"
 										execute="formPrincipal:dataTable" />
 								</h:commandLink>
-							</h:column>
-							<h:column>
-								<f:facet name="header">Perfil</f:facet>
-								<h:outputLabel value="#{obj.perfil.label}" />
 							</h:column>
 						</h:dataTable>
 					</h:panelGrid>

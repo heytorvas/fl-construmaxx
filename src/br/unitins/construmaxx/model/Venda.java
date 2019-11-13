@@ -27,6 +27,9 @@ public class Venda {
 	}
 
 	public Usuario getUsuario() {
+		if(usuario == null) {
+			usuario = new Usuario();
+		}
 		return usuario;
 	}
 

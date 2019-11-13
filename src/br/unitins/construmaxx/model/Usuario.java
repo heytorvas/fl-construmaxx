@@ -18,9 +18,9 @@ public class Usuario implements Cloneable {
 	@Size(min = 6, max = 30, message = "A senha deve conter entre 6 e 30 caracteres")
 	private String senha;
 	
-	@Past
 	private LocalDate dataAniversario;
 	private Boolean ativo = Boolean.TRUE;
+	private Endereco endereco;
 	private Telefone telefone;
 	private Perfil perfil;
 
@@ -28,7 +28,7 @@ public class Usuario implements Cloneable {
 		super();
 	}
 
-	public Usuario(Integer id, String nome, String login, String senha, Boolean ativo, LocalDate data, Telefone telefone) {
+	public Usuario(Integer id, String nome, String login, String senha, Boolean ativo, LocalDate data, Endereco endereco, Telefone telefone) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -36,6 +36,7 @@ public class Usuario implements Cloneable {
 		this.senha = senha;
 		this.ativo = ativo;
 		this.dataAniversario = data;
+		this.endereco = endereco;
 		this.telefone = telefone;
 	}
 
@@ -116,6 +117,9 @@ public class Usuario implements Cloneable {
 	}
 
 	public Telefone getTelefone() {
+		if(telefone == null) {
+			telefone = new Telefone();
+		}
 		return telefone;
 	}
 
@@ -129,6 +133,17 @@ public class Usuario implements Cloneable {
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
+	}
+
+	public Endereco getEndereco() {
+		if (endereco == null) {
+			endereco = new Endereco();
+		}
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 }

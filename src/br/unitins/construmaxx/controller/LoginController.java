@@ -18,30 +18,34 @@ public class LoginController implements Serializable {
 
 	private Usuario usuario;
 
-	private UsuarioController user = new UsuarioController();
-
+	@SuppressWarnings({ "static-access" })
 	public String logar() {
 		UsuarioDAO dao = new UsuarioDAO();
 		String hashSenha = Util.hashSHA256(getUsuario().getSenha());
 		Usuario usuario = dao.login(getUsuario().getLogin(), hashSenha);
 
-		for (int i = 0; i < user.getListaUsuario().size(); i++) {
-			if (usuario != null
-					&& user.getListaUsuario().get(i).equals(dao.login(getUsuario().getLogin(), hashSenha))) {
+		
+		if (usuario != null) {
+			
+			//administrador
+			if (usuario.getPerfil().equals(getUsuario().getPerfil().valueOf(1))) {
 				Session.getInstance().setAttribute("usuarioLogado", usuario);
-				return "usuario.xhtml?faces-redirect=true";
-//				if(getUsuario().getPerfil() == Perfil.ADMINISTRADOR) {
-//					
-//					return "usuario.xhtml?faces-redirect=true";
-//					}
-//				
-//				if(getUsuario().getPerfil() == Perfil.CLIENTE) {
-//					Session.getInstance().setAttribute("usuarioLogado", usuario);
-//					return "templatepadrao.xhtml?faces-redirect=true";
-//				}
+				return "templatefuncionario.xhtml?faces-redirect=true";
+			}
+			
+			//funcionario
+			if (usuario.getPerfil().equals(getUsuario().getPerfil().valueOf(2))) {
+				Session.getInstance().setAttribute("usuarioLogado", usuario);
+				return "templatefuncionario.xhtml?faces-redirect=true";
+			}
+			
+			//cliente
+			if (usuario.getPerfil().equals(getUsuario().getPerfil().valueOf(3))) {
+				Session.getInstance().setAttribute("usuarioLogado", usuario);
+				return "templatefuncionario.xhtml?faces-redirect=true";
 			}
 		}
-		Util.addMessageError("Usuario ou Senha Invalido.");
+		Util.addMessageError("usuario ou senha invalido.");
 		return null;
 	}
 
@@ -58,23 +62,6 @@ public class LoginController implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		LoginController other = (LoginController) obj;
-		if (usuario == null) {
-			if (other.usuario != null)
-				return false;
-		} else if (!usuario.equals(other.usuario))
-			return false;
-		return true;
 	}
 
 }

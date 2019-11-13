@@ -1,7 +1,7 @@
 package br.unitins.construmaxx.model;
 
 public enum TipoProduto {
-	PREMOLD(1, "Pré-moldados"), 
+	PREMOLD(1, "Pre-moldados"), 
 	TELHA(2, "Telhas"), 
 	BLCSTRUT(3, "Blocos Estruturais"),
 	ARGAMS(2, "Argamassas"),
@@ -15,7 +15,7 @@ public enum TipoProduto {
 	TipoProduto(int value, String label) {
 			this.value = value;
 			this.label = label;
-		}
+	}
 
 	public int getValue() {
 		return value;

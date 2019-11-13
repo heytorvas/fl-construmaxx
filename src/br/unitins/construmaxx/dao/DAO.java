@@ -42,6 +42,7 @@ public abstract class DAO<T>{
 		
 		return conn;
 	}
+	
 	private boolean isClosedConnection() {
 		try {
 			if (conn == null || conn.isClosed()) 

@@ -5,6 +5,7 @@ import br.unitins.construmaxx.model.Telefone;
 import br.unitins.construmaxx.model.Usuario;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +20,6 @@ public class UsuarioDAO extends DAO<Usuario> {
 	}
 
 	public UsuarioDAO() {
-		// tchê papai ... cria uma nova conexao
 		super(null);
 	}
 
@@ -64,13 +64,14 @@ public class UsuarioDAO extends DAO<Usuario> {
 		Connection conn = getConnection();
 
 		PreparedStatement stat = conn.prepareStatement("INSERT INTO " + "public.usuario "
-				+ " (nome, login, senha, ativo, perfil) " + "VALUES " + " (?, ?, ?, ?, ?) ",
+				+ " (nome, login, senha, data, ativo, perfil) " + "VALUES " + " (?, ?, ?, ?, ?, ?) ",
 				Statement.RETURN_GENERATED_KEYS);
 		stat.setString(1, usuario.getNome());
 		stat.setString(2, usuario.getLogin());
 		stat.setString(3, usuario.getSenha());
-		stat.setBoolean(4, usuario.getAtivo());
-		stat.setInt(5, usuario.getPerfil().getValue());
+		stat.setDate(4, usuario.getDataAniversario() == null ? null : java.sql.Date.valueOf(usuario.getDataAniversario()));
+		stat.setBoolean(5, usuario.getAtivo());
+		stat.setInt(6, usuario.getPerfil().getValue());
 
 		stat.execute();
 
@@ -78,9 +79,12 @@ public class UsuarioDAO extends DAO<Usuario> {
 		ResultSet rs = stat.getGeneratedKeys();
 		rs.next();
 		usuario.getTelefone().setId(rs.getInt("id"));
+		usuario.getEndereco().setId(rs.getInt("id"));
 
 		TelefoneDAO dao = new TelefoneDAO(conn);
 		dao.create(usuario.getTelefone());
+		EnderecoDAO dao2 = new EnderecoDAO(conn);
+		dao2.create(usuario.getEndereco());
 
 	}
 
@@ -89,18 +93,18 @@ public class UsuarioDAO extends DAO<Usuario> {
 		Connection conn = getConnection();
 
 		PreparedStatement stat = conn.prepareStatement("UPDATE public.usuario SET " + " nome = ?, " + " login = ?, "
-				+ " senha = ?, " + " ativo = ?, " + " perfil = ? " + "WHERE " + " id = ? ");
+				+ " senha = ?, " + " ativo = ?, " + " ativo = ?, " + " perfil = ? " + "WHERE " + " id = ? ");
 		stat.setString(1, usuario.getNome());
 		stat.setString(2, usuario.getLogin());
 		stat.setString(3, usuario.getSenha());
-		stat.setBoolean(4, usuario.getAtivo());
-		stat.setInt(5, usuario.getPerfil().getValue());
-		stat.setInt(6, usuario.getId());
+		stat.setDate(4, usuario.getDataAniversario() == null ? null : java.sql.Date.valueOf(usuario.getDataAniversario()));
+		stat.setBoolean(5, usuario.getAtivo());
+		stat.setInt(6, usuario.getPerfil().getValue());
+		stat.setInt(7, usuario.getId());
 
 		stat.execute();
 
 	}
-
 	@Override
 	public void delete(int id) throws SQLException {
 
