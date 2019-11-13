@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>Bike Shop</title>
+	<h:outputStylesheet library="css" name="table.css" />
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="template.css" />
+</h:head>
+<h:body>
+	<ui:composition template="templatefuncionario.xhtml">
+		<ui:define name="conteudo">
+
+			<h4>Cadastro de Produto</h4>
+			<h:form id="formPrincipal">
+				<h:messages id="messages" infoStyle="color:green"
+					warnStyle="color:orange" errorStyle="color:red" globalOnly="false" />
+				<h:panelGrid id="panelPrincipal" columns="2">
+					<h:outputLabel value="Nome: " />
+					<h:inputText value="#{ProdutoController.produto.nome}" />
+
+					<h:outputLabel value="Descrição: " />
+					<h:inputTextarea value="#{ProdutoController.produto.descricao}" />
+
+					<h:outputLabel value="Valor: " />
+					<h:inputText value="#{ProdutoController.produto.valor}" />
+
+				</h:panelGrid>
+
+				<h:panelGrid id="panelBotoes" columns="4">
+					<h:commandButton value="Incluir" class="buttonCrud"
+						disabled="#{ProdutoController.produto.id != null}"
+						actionListener="#{ProdutoController.incluir()}">
+						<f:ajax render="formPrincipal" execute="panelPrincipal"
+							resetValues="true" />
+
+					</h:commandButton>
+					<h:commandButton value="Alterar" class="buttonCrud"
+						disabled="#{ProdutoController.produto.id == null}"
+						actionListener="#{produtoController.alterar()}">
+						<f:ajax render="formPrincipal messages" execute="formPrincipal" />
+					</h:commandButton>
+
+					<h:commandButton value="Excluir" class="buttonCrud"
+						disabled="#{ProdutoController.produto.id == null}"
+						actionListener="#{ProdutoController.excluir()}">
+						<f:ajax render="@all" execute="@this" />
+					</h:commandButton>
+
+					<h:commandButton value="Limpar" class="buttonCrud"
+						action="#{ProdutoController.limpar()}">
+						<f:ajax render="formPrincipal" execute="@this" />
+					</h:commandButton>
+				</h:panelGrid>
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta charset="utf-8" name="viewport"
+		content="width=device-width, initial-scale=1"
+		http-equiv="X-UA-Conpatible" />
+	<h:outputStylesheet library="css" name="template.css" />
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+</h:head>
+
+<h:body>
+	<div class="container-fluid px-0" style="background-color: white">
+		<div class="container">
+			<img alt="" src="resources/logo.png" width="300px" />
+		</div>
+
+		<div class="container-fluid px-0"
+			style="background-color: rgb(242, 135, 41); height: 3em;">
+			
+		</div>
+	</div>
+
+	<div class="container d-flex justify-content-center mt-4">
+		<aside>
+			<ui:insert name="navegacao" class="col-2">
+
+			</ui:insert>
+		</aside>
+		<section>
+			<ui:insert name="conteudo" class="col-8" />
+		</section>
+	</div>
+
+
+
+	<footer class="footer" style="text-align: center;">
+		<h4 class="h4">Building by Unitins</h4>
+	</footer>
+</h:body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<title>Login</title>
+	<h:outputStylesheet library="css" name="bootstrap.css" />
+	<h:outputStylesheet library="css" name="template.css" />
+</h:head>
+
+<ui:composition template="templatepadrao.xhtml">
+	<ui:define name="conteudo">
+		<h:messages styleClass="passwordError" />
+		<div
+			id="container d-flex flex-nowrap align-items-center justify-content-center">
+			<div class="col-12">
+				<h3 class="text-center">Login</h3>
+
+				<h:form class="container">
+
+					<div class="py-2 w-100">
+						<h:inputText value="#{loginController.usuario.login}">
+							<f:passThroughAttribute name="placeholder" value="Email" />
+						</h:inputText>
+
+					</div>
+					<div class="py-2 w-100">
+						<h:inputSecret value="#{loginController.usuario.senha}">
+							<f:passThroughAttribute name="placeholder" value="Senha" />
+						</h:inputSecret>
+					</div>
+					<div class="text-center py-2">
+						<h:commandButton class="btn btn-success" value="Logar"
+							action="#{loginController.logar()}" />
+						<h:commandButton class="btn btn-alert" value="Limpar"
+							actionListener="#{loginController.limpar()}" />
+					</div>
+				</h:form>
+			</div>
+		</div>
+		<ui:define name="footer"></ui:define>
+	</ui:define>
+</ui:composition>
+</html>

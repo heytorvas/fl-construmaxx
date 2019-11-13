@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="templatepadrao.xhtml">
+	<ui:define name="conteudo">
+		<center>
+			<h1>Consulta de Produto</h1>
+
+			<h:messages style="color:red" />
+			<h:form>
+				<h:panelGrid id="panelForm" columns="3">
+
+					<h:outputLabel value="Id: " />
+					<h:inputText value="#{consultaPedidoController.pedido.id}" />
+
+					<h:commandButton value="Pesquisar"
+						actionListener="#{consultaPedidoController.pedido.pesquisar}">
+						<f:ajax execute="panelForm" render="@all" />
+					</h:commandButton>
+
+				</h:panelGrid>
+
+				<h:dataTable value="#{consultaPedidoController.listaPedido}"
+					var="obj">
+					<h:column>
+						<f:facet name="header">Id</f:facet>
+						<h:outputLabel value="#{obj.id}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Nome</f:facet>
+						<h:commandLink value="#{obj.nome}"
+							action="#{consultaPedidoController.editar(obj.id)}">
+							<f:ajax execute="@this" render="@form" />
+						</h:commandLink>
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Descrição</f:facet>
+						<h:commandLink value="#{obj.descricao}"
+							action="#{consultaPedidoController.editar(obj.id)}">
+							<f:ajax execute="@this" render="@form" />
+						</h:commandLink>
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Valor</f:facet>
+						<h:commandLink value="#{obj.valor}"
+							action="#{consultaPedidoController.editar(obj.id)}">
+							<f:ajax execute="@this" render="@form" />
+						</h:commandLink>
+					</h:column>
+
+				</h:dataTable>
+
+			</h:form>
+		</center>
+	</ui:define>
+</ui:composition>
+</html>

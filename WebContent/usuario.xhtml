@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="templatefuncionario.xhtml">
+	<ui:define name="conteudo">
+
+		<h4 class="text-center py-3">Cadastro de Usuário</h4>
+
+		<div class="container-fluid d-flex">
+			<h:form id="formPrincipal">
+				<h:messages id="messages" infoStyle="color:green"
+					warnStyle="color:orange" errorStyle="color:red" globalOnly="false" />
+
+				<div class="col-md-6">
+					<h:panelGrid id="panelPrincipal" columns="2">
+						<h:outputLabel value="Nome: " />
+						<h:inputText id="inputNome"
+							value="#{usuarioController.usuario.nome}" />
+
+						<h:outputLabel value="Login: " />
+						<h:panelGrid columns="2">
+							<h:inputText id="inputLogin"
+								value="#{usuarioController.usuario.login}"
+								requiredMessage="O campo login não pode ser nulo.">
+								<f:validateRequired />
+							</h:inputText>
+							<h:message for="inputLogin" style="color:red" />
+						</h:panelGrid>
+
+						<h:outputLabel value="Senha: " />
+						<h:inputSecret value="#{usuarioController.usuario.senha}" />
+
+						<h:outputLabel value="Data de Aniversário: " />
+						<h:inputText id="inputData"
+							value="#{usuarioController.usuario.dataAniversario}">
+							<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+							<f:ajax resetValues="true" />
+						</h:inputText>
+						<h:outputLabel value="Usuario ativo: " />
+						<h:selectBooleanCheckbox id="checkAtivo"
+							value="#{usuarioController.usuario.ativo}" />
+
+						<h:outputLabel value="DDD: " />
+						<h:inputText
+							value="#{usuarioController.usuario.telefone.codigoArea}" />
+						<h:outputLabel value="Telefone: " />
+						<h:inputText value="#{usuarioController.usuario.telefone.numero}" />
+
+						<h:outputLabel value="Perfil: " />
+						<h:selectOneMenu value="#{usuarioController.usuario.perfil}">
+							<f:selectItem itemLabel="Selecione ...." />
+							<f:selectItems value="#{usuarioController.listaPerfil}"
+								var="perfil" itemLabel="#{perfil.label}" itemValue="#{perfil}" />
+						</h:selectOneMenu>
+
+					</h:panelGrid>
+
+
+
+					<h:panelGrid id="panelBotoes" columns="4">
+						<h:commandButton value="Incluir" class="buttonCrud"
+							disabled="#{usuarioController.usuario.id != null}"
+							actionListener="#{usuarioController.incluir()}">
+							<f:ajax render="formPrincipal" execute="panelPrincipal"
+								resetValues="true" />
+
+						</h:commandButton>
+						<h:commandButton value="Alterar" class="buttonCrud"
+							disabled="#{usuarioController.usuario.id == null}"
+							actionListener="#{usuarioController.alterar()}">
+							<f:ajax render="formPrincipal messages" execute="formPrincipal" />
+						</h:commandButton>
+
+						<h:commandButton value="Excluir" class="buttonCrud"
+							disabled="#{usuarioController.usuario.id == null}"
+							actionListener="#{usuarioController.excluir()}">
+							<f:ajax render="@all" execute="@this" />
+						</h:commandButton>
+
+						<h:commandButton value="Limpar" class="buttonCrud"
+							action="#{usuarioController.limpar()}">
+							<f:ajax
+								render="formPrincipal inputNome inputData inputCep checkAtivo"
+								execute="@this" resetValues="true" />
+						</h:commandButton>
+					</h:panelGrid>
+				</div>
+
+				<div class="col-md-6">
+					<h:panelGrid id="panelDataTable">
+						<h:dataTable id="dataTable"
+							value="#{usuarioController.listaUsuario}" var="obj"
+							styleClass="table" headerClass="table-header"
+							rowClasses="table-odd-row, table-even-row">
+							<h:column>
+								<f:facet name="header">Id</f:facet>
+								<h:outputLabel value="#{obj.id}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">Nome</f:facet>
+								<h:commandLink value="#{obj.nome}" style="color: black;"
+									actionListener="#{usuarioController.editar(obj)}">
+									<f:ajax
+										render="formPrincipal:panelPrincipal formPrincipal:panelBotoes"
+										execute="formPrincipal:dataTable" />
+								</h:commandLink>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Login</f:facet>
+								<h:outputLabel value="#{obj.login}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">Senha</f:facet>
+								<h:outputLabel value="#{obj.senha}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">Data de Aniversário</f:facet>
+								<h:outputLabel value="#{obj.dataAniversario}">
+									<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+								</h:outputLabel>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Ativo</f:facet>
+								<h:outputLabel value="#{obj.ativo == true ? 'Sim' : 'Não' }" />
+							</h:column>
+							<h:column>
+								<h:commandLink value="Apagar"
+									actionListener="#{usuarioController.excluir(obj)}">
+									<f:ajax render="formPrincipal"
+										execute="formPrincipal:dataTable" />
+								</h:commandLink>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Perfil</f:facet>
+								<h:outputLabel value="#{obj.perfil.label}" />
+							</h:column>
+						</h:dataTable>
+					</h:panelGrid>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>
