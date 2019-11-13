@@ -16,7 +16,6 @@ public class ProdutoDAO extends DAO<Produto> {
 	}
 	
 	public ProdutoDAO() {
-		// tchê papai ... cria uma nova conexao
 		super(null);
 	}
 
@@ -27,7 +26,7 @@ public class ProdutoDAO extends DAO<Produto> {
 			
 		PreparedStatement stat = conn.prepareStatement(
 				"INSERT INTO " +
-			    "public.produto " +
+			    "produto " +
 			    " (nome, descricao, valor) " +
 				"VALUES " +
 			    " (?, ?, ?) ");
@@ -44,7 +43,7 @@ public class ProdutoDAO extends DAO<Produto> {
 		Connection  conn = getConnection();
 		
 		PreparedStatement stat = conn.prepareStatement(
-				"UPDATE public.produto SET " +
+				"UPDATE produto SET " +
 			    " nome = ?, " +
 			    " descricao = ?, " +
 			    " valor = ? " +
@@ -65,7 +64,7 @@ public class ProdutoDAO extends DAO<Produto> {
 		Connection  conn = getConnection();
 		
 		PreparedStatement stat = conn.prepareStatement(
-				"DELETE FROM public.produto WHERE id = ?");
+				"DELETE FROM produto WHERE id = ?");
 		stat.setInt(1, id);
 		
 		stat.execute();
@@ -85,7 +84,7 @@ public class ProdutoDAO extends DAO<Produto> {
 					"  descricao, " +
 					"  valor " +
 					"FROM " +
-					"  public.produto ");
+					"  produto ");
 			ResultSet rs = stat.executeQuery();
 			
 			List<Produto> listaProduto = new ArrayList<Produto>();
@@ -123,7 +122,7 @@ public class ProdutoDAO extends DAO<Produto> {
 					"  descricao, " +
 					"  valor " +
 					"FROM " +
-					"  public.produto " +
+					"  produto " +
 					"WHERE " +
 					"  nome ilike ? ");
 			
@@ -165,7 +164,7 @@ public class ProdutoDAO extends DAO<Produto> {
 					"  descricao, " +
 					"  valor " +
 					"FROM " +
-					"  public.produto " +
+					"  produto " +
 					"WHERE id = ? ");
 			
 			stat.setInt(1, id);

@@ -19,12 +19,12 @@ public class ProdutoController implements Serializable {
 
 	private static final long serialVersionUID = -6521198943457165212L;
 
-	private Produto Produto;
+	private Produto produto;
 
 	public ProdutoController() {
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 		flash.keep("produtoFlash");
-		Produto = (Produto) flash.get("produtoFlash");
+		produto = (Produto) flash.get("produtoFlash");
 	}
 
 	public void incluir() {
@@ -32,12 +32,12 @@ public class ProdutoController implements Serializable {
 		try {
 			dao.create(getProduto());
 			dao.getConnection().commit();
-			Util.addMessageInfo("Inclusão realizada com sucesso.");
+			Util.addMessageInfo("Inclusao realizada com sucesso.");
 			limpar();
 		} catch (SQLException e) {
 			dao.rollbackConnection();
 			dao.closeConnection();
-			Util.addMessageInfo("Erro ao incluir o Produto no Banco de Dados.");
+			Util.addMessageInfo("Erro ao incluir o produto no Banco de Dados.");
 			e.printStackTrace();
 		}
 	}
@@ -47,12 +47,12 @@ public class ProdutoController implements Serializable {
 		try {
 			dao.update(getProduto());
 			dao.getConnection().commit();
-			Util.addMessageInfo("Alteração realizada com sucesso.");
+			Util.addMessageInfo("Alteracao realizada com sucesso.");
 			limpar();
 		} catch (SQLException e) {
 			dao.rollbackConnection();
 			dao.closeConnection();
-			Util.addMessageInfo("Erro ao alterar o Usuário no Banco de Dados.");
+			Util.addMessageInfo("Erro ao alterar o produto no Banco de Dados.");
 			e.printStackTrace();
 		}
 	}
@@ -63,11 +63,11 @@ public class ProdutoController implements Serializable {
 		try {
 			dao.delete(getProduto().getId());
 			dao.getConnection().commit();
-			Util.addMessageInfo("Exclusão realizada com sucesso.");
+			Util.addMessageInfo("Exclusao realizada com sucesso.");
 			limpar();
 		} catch (SQLException e) {
 			dao.rollbackConnection();
-			Util.addMessageInfo("Erro ao excluir o Produto no Banco de Dados.");
+			Util.addMessageInfo("Erro ao excluir o produto no Banco de Dados.");
 			e.printStackTrace();
 		} finally {
 			dao.closeConnection();
@@ -75,18 +75,18 @@ public class ProdutoController implements Serializable {
 	}
 
 	public Produto getProduto() {
-		if (Produto == null) {
-			Produto = new Produto();
+		if (produto == null) {
+			produto = new Produto();
 		}
-		return Produto;
+		return produto;
 	}
 
 	public void setProduto(Produto Produto) {
-		this.Produto = Produto;
+		this.produto = Produto;
 	}
 
 	public void limpar() {
-		Produto = null;
+		produto = null;
 	}
 
 }

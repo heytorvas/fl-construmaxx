@@ -6,6 +6,18 @@ public class Produto {
 	private String descricao;
 	private Float valor;
 
+	public Produto() {
+		
+	}
+	
+	public Produto(Integer id, String nome, String descricao, Float valor) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.descricao = descricao;
+		this.valor = valor;
+	}
+
 	public Integer getId() {
 		return id;
 	}
