@@ -27,7 +27,7 @@ public class Venda {
 	}
 
 	public Usuario getUsuario() {
-		if(usuario == null) {
+		if (usuario == null) {
 			usuario = new Usuario();
 		}
 		return usuario;
@@ -43,6 +43,15 @@ public class Venda {
 
 	public void setListaItemVenda(List<ItemVenda> listaItemVenda) {
 		this.listaItemVenda = listaItemVenda;
+	}
+
+	public Double getTotalVenda() {
+		double totalVenda = 0.0;
+		if (listaItemVenda != null)
+			for (ItemVenda itemVenda : listaItemVenda)
+				totalVenda += itemVenda.getValor();
+
+		return totalVenda;
 	}
 
 }

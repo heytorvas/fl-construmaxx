@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: NIT5
-Build-Jdk: 1.8.0_222
+Built-By: heytor
+Build-Jdk: 12.0.2
 Created-By: Maven Integration for Eclipse
 

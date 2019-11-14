@@ -29,7 +29,7 @@
 				<h:column>
 					<f:facet name="header">Ação</f:facet>
 					<h:commandButton value="remover"
-						actionListener="#{carrinhoController.remover(obj.id)}" >
+						actionListener="#{carrinhoController.remover(obj.produto.id)}" >
 						<f:ajax render="@form" execute="@this" />
 					</h:commandButton>
 				</h:column>

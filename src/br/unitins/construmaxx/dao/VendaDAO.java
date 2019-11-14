@@ -74,8 +74,8 @@ public class VendaDAO extends DAO<Venda> {
 		try {
 			PreparedStatement stat = conn.prepareStatement(
 					"SELECT " + "  v.id, " + "  v.data, " + "  u.idusuario, " + "  u.nome, " + "  u.login,  "
-							+ "  u.senha, " + "  u.ativo, " + "  u.perfil, " + "  u.dataaniversario " + "FROM "
-							+ "  public.venda v, " + "  public.usuario u " + "WHERE " + "  v.idusuario = u.id ");
+							+ "  u.senha, " + "  u.ativo, " + "  u.perfil, " + "  u.data " + "FROM "
+							+ "  venda v, " + "  usuario u " + "WHERE " + "  v.idusuario = u.id ");
 			ResultSet rs = stat.executeQuery();
 
 			List<Venda> listaVenda = new ArrayList<Venda>();
@@ -91,7 +91,7 @@ public class VendaDAO extends DAO<Venda> {
 				venda.getUsuario().setSenha(rs.getString("senha"));
 				venda.getUsuario().setAtivo(rs.getBoolean("ativo"));
 				venda.getUsuario().setPerfil(Perfil.valueOf(rs.getInt("perfil")));
-				venda.getUsuario().setDataAniversario(rs.getDate("dataaniversario").toLocalDate());
+				venda.getUsuario().setDataAniversario(rs.getDate("data").toLocalDate());
 				// e os itens de venda?!!?
 				// venda.setListaItemVenda(listaItemVenda);
 
@@ -116,7 +116,7 @@ public class VendaDAO extends DAO<Venda> {
 		try {
 			PreparedStatement stat = conn.prepareStatement("SELECT " + "  v.id, " + "  v.data, "
 					+ "  u.id as idusuario, " + "  u.nome, " + "  u.login,  " + "  u.senha, " + "  u.ativo, "
-					+ "  u.perfil, " + "  u.dataaniversario " + "FROM " + "  public.venda v, " + "  public.usuario u "
+					+ "  u.perfil, " + "  u.data " + "FROM " + "  venda v, " + "  usuario u "
 					+ "WHERE " + "  v.idusuario = u.id AND " + "  u.id = ? ");
 			stat.setInt(1, idUsuario);
 
@@ -135,7 +135,7 @@ public class VendaDAO extends DAO<Venda> {
 				venda.getUsuario().setSenha(rs.getString("senha"));
 				venda.getUsuario().setAtivo(rs.getBoolean("ativo"));
 				venda.getUsuario().setPerfil(Perfil.valueOf(rs.getInt("perfil")));
-				Date data = rs.getDate("dataaniversario");
+				Date data = rs.getDate("data");
 				venda.getUsuario().setDataAniversario(data == null ? null : data.toLocalDate());
 				ItemVendaDAO dao = new ItemVendaDAO(conn);
 				venda.setListaItemVenda(dao.findByVenda(venda));
